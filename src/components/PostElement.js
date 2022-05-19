@@ -3,7 +3,7 @@ import { urlFor } from "../sanityclient.js";
 
 const PostElemet = ({ post }) => {
 	return(
-		<Link to={`/posts/${post.slug.current}`}>
+		<Link to={`/post/${post.slug.current}`}>
 			<div className="group border rounded-lg overflow-hidden h-[21rem]">
 				<div className="flex justify-center py-1">
 					<img className="w-4/5 center h-52 object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out" src={urlFor(post.mainImage).url()} alt=""/>
