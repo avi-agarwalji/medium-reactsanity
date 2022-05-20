@@ -9,7 +9,7 @@ function DetailedPost() {
 	const { slug } = useParams();
 
 	useEffect(() => {
-		const query = ` *[_type == "post" && slug.current=="${slug}"][0]{
+		const query = `*[_type == "post" && slug.current=="${slug}"][0]{
 			_id,
 			_createdAt,
 			title,
@@ -19,8 +19,7 @@ function DetailedPost() {
 			},
 			'comments': *[
 				_type == "comment" &&
-				post.ref == ^._id &&
-				approved == true
+				post._ref == ^._id
 			],
 			description,
 			mainImage,
@@ -44,37 +43,39 @@ function DetailedPost() {
 				src={urlFor(detailedPost.mainImage).url()} 
 				alt="" 
 			/>
-			<article className="max-w-3xl mx-auto p-4">
-				<h1 className="text-3xl font-semibold mt-10 mb-3">{detailedPost.title}</h1>
-				<h2 className="text-xl font-light text-gray-500 mb-2">
-					{detailedPost.description}
-				</h2>
-				<div className="flex items-center space-x-2">
-					<img 
-						className="h-10 w-10 rounded-full"
-						src={urlFor(detailedPost.author.image).url()} 
-						alt="" 
-					/>
-					<p className="font-extralight text-sm">
-						Posted by{" "}
-						<span className="text-red-600">
-							{detailedPost.author.name}
-						</span>
-						{" "}
-						Published at {new Date(detailedPost._createdAt).toLocaleString()}
-					</p>
-				</div>
-				<div className="mt-10 text-gray-700 text-sm">
-					<PortableText 
-						dataset="production"
-						projectId="xqd83ecq"
-						content={detailedPost.body}
-					/>
-				</div>
-			</article>
+			<div className="grid grid-cols-1 md:grid-cols-2 mb-10">
+				<article className="max-w-2xl mx-auto p-4">
+					<h1 className="text-3xl font-semibold mt-10 mb-3">{detailedPost.title}</h1>
+					<h2 className="text-xl font-light text-gray-500 mb-2">
+						{detailedPost.description}
+					</h2>
+					<div className="flex items-center space-x-2">
+						<img 
+							className="h-12 w-14 rounded-full"
+							src={urlFor(detailedPost.author.image).url()} 
+							alt="" 
+						/>
+						<p className="font-extralight text-sm">
+							Posted by{" "}
+							<span className="text-red-600">
+								{detailedPost.author.name}
+							</span>
+							{" "}
+							Published at {new Date(detailedPost._createdAt).toLocaleString()}
+						</p>
+					</div>
+					<div className="mt-10 text-gray-700 text-sm text-justify">
+						<PortableText 
+							dataset={process.env.REACT_APP_SANITY_DATASET || "production"}
+							projectId={process.env.REACT_APP_SANITY_PROJECT_ID}
+							content={detailedPost.body}
+						/>
+					</div>
+				</article>
 
-			<hr className="max-w-lg my-5 mx-auto border border-yellow-400" />
-			<PostComment id={detailedPost._id} />
+				{/* Comment section */}
+				<PostComment id={detailedPost._id} comments={detailedPost.comments} />
+			</div>
 		</div>
 	);
 }

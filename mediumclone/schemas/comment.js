@@ -14,12 +14,6 @@ export default {
       type: 'string',
     },
     {
-      name: 'approved',
-      title: 'Approved',
-      type: 'boolean',
-      description: "Comment need to be approved to display"
-    },
-    {
       name: 'comment',
       title: 'Comment',
       type: 'text',

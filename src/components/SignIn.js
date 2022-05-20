@@ -25,7 +25,7 @@ const SignIn = () => {
                                 </div>
                                 <div>
                                     <button 
-                                        disabled="true"
+                                        disabled={true}
                                         className="text-xs font-display font-semibold text-yellow-600 hover:text-yellow-800 cursor-pointer">
                                         Forgot Password?
                                     </button>
